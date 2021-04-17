@@ -1,5 +1,5 @@
 #pragma once
-#include "BankAccount.h"
+#include "../BankData/BankAccount.h"
 #include <vector>
 #include <map>
 
@@ -20,6 +20,5 @@ public:
 	void AddTransaction(vector<string>& movement) { transactions.push_back(movement); };
 	string GetName() { return name; };
 	vector<vector<string>> GetTransactions() { return transactions; };
-
 };
 

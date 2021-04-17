@@ -42,7 +42,6 @@ int ConvertToInteger(wstring text) {
 	int n = std::stoi(text);//Convert String to Int
 	return n;
 }
-
 vector<vector<string>> importAccounts(std::wstring fileName2) {
 	std::wstring texttemp = fileName2;
 	vector<vector<string>> data_file;
@@ -67,7 +66,6 @@ vector<vector<string>> importAccounts(std::wstring fileName2) {
 
 	return data_file;
 }
-
 void ImportData() {
 	vector<vector<string>> data = importAccounts(fileNameAccount);
 
@@ -78,7 +76,6 @@ void ImportData() {
 		userAccounts[stoi(tmp[0])] = tmp[1];
 	}
 }
-
 cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Bank", wxPoint(30, 30), wxSize(550, 450))
 {
 	
@@ -106,11 +103,9 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Bank", wxPoint(30, 30), wxSize(550,
 	ImportData();
 	
 }
-
 cMain::~cMain() 
 {
 }
-
 void cMain::OnButtonClicked(wxCommandEvent& evt)
 {
 	if (m_txt1->IsEmpty()) {
@@ -157,7 +152,6 @@ string ConvertwstringTostring(wstring text)
 	std::string str(text.begin(), text.end());
 	return str;
 }
-
 wstring GetDate() 
 {
 	wstring date;
@@ -166,7 +160,6 @@ wstring GetDate()
 	date = to_wstring(now->tm_year + 1900) + L'/' + to_wstring(now->tm_mon + 1) + L'/' + to_wstring(now->tm_mday);
 	return date;
 }
-
 void RecordTransaction(wstring fileName, wstring value, int total)
 {
 	ofstream file(fileName + L".txt", std::ios::app);
@@ -177,7 +170,6 @@ void RecordTransaction(wstring fileName, wstring value, int total)
 	file << lineToSave;
 	file.close();
 }
-
 void cMain::DepositClicked(wxCommandEvent& evt) 
 {
 	if (m_txt2->IsEmpty() || ConvertToInteger(m_txt2->GetValue().ToStdWstring()) <= 0) {
@@ -203,7 +195,6 @@ void cMain::DepositClicked(wxCommandEvent& evt)
 	}
 	
 }
-
 void cMain::WithdrawClicked(wxCommandEvent& evt)
 {
 	if (m_txt2->IsEmpty() || (ConvertToInteger(m_txt2->GetValue().ToStdWstring()) <= 0))
@@ -237,7 +228,6 @@ void cMain::WithdrawClicked(wxCommandEvent& evt)
 	}
 	
 }
-
 void SaveAccountBallance() 
 {
 	ofstream myFile(fileNameAccount);
@@ -248,7 +238,6 @@ void SaveAccountBallance()
 	}
 	myFile.close();
 }
-
 void SaveUsersTransactions(wstring filename) 
 {
 	for (int i = 0; i < users.size(); i++)
@@ -268,7 +257,6 @@ void SaveUsersTransactions(wstring filename)
 		myFile.close();
 	}
 }
-
 void cMain::OnClose(wxCloseEvent& event)
 {
 	if (event.CanVeto())
@@ -287,7 +275,6 @@ void cMain::OnClose(wxCloseEvent& event)
 	Destroy();  // you may also do:  event.Skip();
 				// since the default event handler does call Destroy(), too
 }
-
 bool BetweenDates(string dateToCompare, wxDateTime const &timeStart, wxDateTime const & timeEnd) {
 	//2021/4/16,Claudia,123,123,3802,
 	//wxDateTime timetmp = m_date1->GetValue();
@@ -321,7 +308,6 @@ bool CompareTwoDates(wxDateTime const& dateToCompare1, wxDateTime const& dateToC
 	else
 		return false;
 }
-
 void cMain::GetStatement(wxCommandEvent& evt) {
 	wstring userAccount = m_txt1->GetValue().ToStdWstring();
 
@@ -352,7 +338,6 @@ void cMain::GetStatement(wxCommandEvent& evt) {
 	}
 	
 }
-
 void cMain::DateChangeDate1(wxDateEvent& event) 
 {
 	if (CompareTwoDates(m_date1->GetValue(), m_date2->GetValue()))

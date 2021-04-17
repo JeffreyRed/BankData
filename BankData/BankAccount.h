@@ -18,7 +18,5 @@ public:
 	int GetBalance() { return balance; };
 	void Deposit(int value) { balance = balance + value; };
 	void Withdraw(int value) { balance = balance - value; };
-
-	
 };
 

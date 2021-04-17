@@ -11,25 +11,19 @@ class cMain : public wxFrame
 public:
 	cMain();
 	~cMain();
-
 public:
 	wxButton* m_btn1 = nullptr;
 	wxButton* m_btn2 = nullptr;
 	wxButton* m_btn3 = nullptr;
 	wxButton* m_btn4 = nullptr;
-
 	wxTextCtrl* m_txt1 = nullptr;
 	wxTextCtrl* m_txt2 = nullptr;
-
 	wxStaticText* m_label1 = nullptr;
 	wxStaticText* m_label2 = nullptr;
 	wxStaticText* m_label3 = nullptr;
-
 	wxDatePickerCtrl* m_date1 = nullptr;
 	wxDatePickerCtrl* m_date2 = nullptr;
-
 	wxListBox* m_list1 = nullptr;
-
 	void OnButtonClicked(wxCommandEvent& evt);
 	void DepositClicked(wxCommandEvent& evt);
 	void WithdrawClicked(wxCommandEvent& evt);
@@ -37,7 +31,6 @@ public:
 	void GetStatement(wxCommandEvent& evt);
 	void DateChangeDate1(wxDateEvent& event);
 	void DateChangeDate2(wxDateEvent& event);
-
 	wxDECLARE_EVENT_TABLE();
 };
 
