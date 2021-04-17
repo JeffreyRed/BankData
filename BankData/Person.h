@@ -20,5 +20,7 @@ public:
 	void AddTransaction(vector<string>& movement) { transactions.push_back(movement); };
 	string GetName() { return name; };
 	vector<vector<string>> GetTransactions() { return transactions; };
+	void Deposit(int value, string date);
+	void Withdraw(int value, string date);
 };
 

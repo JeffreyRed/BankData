@@ -181,13 +181,11 @@ void cMain::DepositClicked(wxCommandEvent& evt)
 	int balance = 0;
 	for (int i = 0; i < users.size(); i++) {
 		if (users[i].GetBankAccout() == ConvertToInteger(userAccount)) {
-			users[i].Deposit(ConvertToInteger(value));
+			
+			users[i].Deposit(ConvertToInteger(value), ConvertwstringTostring(GetDate()));
 			wxMessageBox(wxT("New Balance: " + std::to_string(users[i].GetBalance())));
 			balance = users[i].GetBalance();
 			allAccounts[ConvertToInteger(userAccount)] = balance;
-			vector<string> temp{ ConvertwstringTostring(GetDate()), users[i].GetName(),ConvertwstringTostring(userAccount),
-				ConvertwstringTostring(value), to_string(balance) };
-			users[i].AddTransaction(temp);
 			RecordTransaction(userAccount, value, balance);
 			m_txt2->Clear();
 			return;
@@ -214,13 +212,11 @@ void cMain::WithdrawClicked(wxCommandEvent& evt)
 	int balance = 0;
 	for (int i = 0; i < users.size(); i++) {
 		if (users[i].GetBankAccout() == ConvertToInteger(userAccount)) {
-			users[i].Withdraw(ConvertToInteger(value));
+			
+			users[i].Withdraw(ConvertToInteger(value), ConvertwstringTostring(GetDate()));
 			wxMessageBox(wxT("New Balance: " + std::to_string(users[i].GetBalance())));
 			balance = users[i].GetBalance();
 			allAccounts[ConvertToInteger(userAccount)] = balance;
-			vector<string> temp{ ConvertwstringTostring(GetDate()), users[i].GetName(),ConvertwstringTostring(userAccount),
-				ConvertwstringTostring(value), to_string(balance) };
-			users[i].AddTransaction(temp);
 			RecordTransaction(userAccount, (L"-"+value), balance);
 			m_txt2->Clear();
 			return;

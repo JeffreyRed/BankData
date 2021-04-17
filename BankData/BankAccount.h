@@ -16,7 +16,8 @@ public:
 	virtual ~BankAccount();
 	int GetBankAccout() const { return bankAccount; };
 	int GetBalance() { return balance; };
-	void Deposit(int value) { balance = balance + value; };
-	void Withdraw(int value) { balance = balance - value; };
+	virtual void Deposit(int value) { balance = balance + value; };
+	virtual void Withdraw(int value) { balance = balance - value; };
+	void SetBalance(int value) { balance = value; };
 };
 

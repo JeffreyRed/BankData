@@ -1,4 +1,4 @@
-46,Maria,3690,
-123,Claudia,5935,
+46,Maria,3725,
+123,Claudia,5947,
 124,Rodrigo,800,
 234,Jimenez,2000,
