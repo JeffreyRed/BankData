@@ -9,3 +9,7 @@ then when the user is query , you can make deposit or withdraw and consult the t
 if transaction will be save in one txt with the name of the user account. 
 
 at the end the program is close and files are added.
+
+#UnitTest
+
+unit test added to test Peson class
