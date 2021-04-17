@@ -26,6 +26,8 @@ wxBEGIN_EVENT_TABLE(cMain, wxFrame)
 	EVT_BUTTON(02, DepositClicked)
 	EVT_BUTTON(03, WithdrawClicked)
 	EVT_BUTTON(04, GetStatement)
+	EVT_DATE_CHANGED(05, DateChangeDate1)
+	EVT_DATE_CHANGED(06, DateChangeDate2)
 	EVT_CLOSE(OnClose)
 wxEND_EVENT_TABLE()
 
@@ -77,27 +79,29 @@ void ImportData() {
 	}
 }
 
-cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Bank", wxPoint(30, 30), wxSize(600, 600))
+cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Bank", wxPoint(30, 30), wxSize(550, 450))
 {
 	
-	m_label1 = new wxStaticText(this, wxID_ANY, "Bank Account", wxPoint(10, 10), wxSize(150, 20));
-	m_txt1 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(10, 35), wxSize(100, 25), wxFILTER_NUMERIC);
-	m_btn1 = new wxButton(this, 01, "Sing in", wxPoint(10, 65), wxSize(100, 25));
+	m_label1 = new wxStaticText(this, wxID_ANY, "Bank Account", wxPoint(20, 10), wxSize(150, 20));
+	m_txt1 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 35), wxSize(100, 25), 0L,wxTextValidator(wxFILTER_NUMERIC));
+	m_btn1 = new wxButton(this, 01, "Sing in", wxPoint(20, 65), wxSize(100, 25));
 
-	m_label2 = new wxStaticText(this, wxID_ANY, "Amount", wxPoint(10, 90), wxSize(150, 20));
-	m_txt2 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(10, 120), wxSize(100, 25));
-	m_btn2 = new wxButton(this, 02, "Deposit", wxPoint(10, 155), wxSize(100, 25));
-	m_btn3 = new wxButton(this, 03, "Withdraw", wxPoint(10, 185), wxSize(100, 25));
+	m_label2 = new wxStaticText(this, wxID_ANY, "Amount", wxPoint(20, 90), wxSize(150, 20));
+	m_txt2 = new wxTextCtrl(this, wxID_ANY, "", wxPoint(20, 120), wxSize(100, 25), 0L, wxTextValidator(wxFILTER_NUMERIC));
+	m_btn2 = new wxButton(this, 02, "Deposit", wxPoint(20, 155), wxSize(100, 25));
+	m_btn3 = new wxButton(this, 03, "Withdraw", wxPoint(20, 185), wxSize(100, 25));
 	
 	m_label3 = new wxStaticText(this, wxID_ANY, "Get Statement", wxPoint(180, 10), wxSize(150, 20));
-	m_date1 = new wxDatePickerCtrl(this, wxID_ANY, wxDefaultDateTime, wxPoint(180, 35), wxSize(150, 20));
-	m_date2 = new wxDatePickerCtrl(this, wxID_ANY, wxDefaultDateTime, wxPoint(340, 35), wxSize(150, 20));
+	m_date1 = new wxDatePickerCtrl(this, 05, wxDefaultDateTime, wxPoint(180, 35), wxSize(150, 20), wxDP_DROPDOWN);
+	m_date2 = new wxDatePickerCtrl(this, 06, wxDefaultDateTime, wxPoint(340, 35), wxSize(150, 20), wxDP_DROPDOWN);
 	m_btn4 = new wxButton(this, 04, "Get Statement", wxPoint(180, 65), wxSize(150, 20));
 	m_list1 = new wxListBox(this, wxID_ANY, wxPoint(180, 90), wxSize(300, 300));
 
 	m_btn2->Enable(false);
 	m_btn3->Enable(false);
 	m_btn4->Enable(false);
+	wxDateTime fff = wxDateTime::Today()- wxTimeSpan::Day();
+	m_date1->SetValue(fff);
 
 	ImportData();
 	
@@ -284,8 +288,43 @@ void cMain::OnClose(wxCloseEvent& event)
 				// since the default event handler does call Destroy(), too
 }
 
+bool BetweenDates(string dateToCompare, wxDateTime const &timeStart, wxDateTime const & timeEnd) {
+	//2021/4/16,Claudia,123,123,3802,
+	//wxDateTime timetmp = m_date1->GetValue();
+	string dateStart = to_string(timeStart.GetYear()) + "/" + to_string(timeStart.GetMonth() + 1) + "/" + to_string(timeStart.GetDay());
+	string dateEnd = to_string(timeEnd.GetYear()) + "/" + to_string(timeEnd.GetMonth() + 1) + "/" + to_string(timeEnd.GetDay());
+	//"18-02-2021"
+	wxString date1 = dateStart;
+	wxString date2 = dateEnd;
+	wxString dateCompare = dateToCompare;
+	wxDateTime dateBeginQuery, dateEndQuery, dateToEvaluate;
+	dateBeginQuery.ParseDate(date1);
+	dateEndQuery.ParseDate(date2);
+	dateToEvaluate.ParseDate(dateCompare);
+	//bool difftmp = date3 > date4;
+	if (dateToEvaluate <= dateEndQuery && dateToEvaluate >= dateBeginQuery)
+		return true;
+	else
+		return false;
+	//wxDateSpan dateSpan3, dateSpan4;
+	//wxString y, m, d;
+	//dateSpan3 = wxDateSpan(date3.GetYear(), date3.GetMonth(), date3.GetWeekDay(), date3.GetDay());
+	//dateSpan4 = wxDateSpan(date4.GetYear(), date4.GetMonth(), date4.GetWeekDay(), date4.GetDay());
+	//dateSpan4 -= dateSpan3;
+	//y << dateSpan4.GetYears(); //String years
+	//m << dateSpan4.GetMonths(); //String months
+	//d << dateSpan4.GetDays(); //String days
+}
+bool CompareTwoDates(wxDateTime const& dateToCompare1, wxDateTime const& dateToCompare2) {
+	if (dateToCompare1 > dateToCompare2)
+		return true;
+	else
+		return false;
+}
+
 void cMain::GetStatement(wxCommandEvent& evt) {
 	wstring userAccount = m_txt1->GetValue().ToStdWstring();
+
 	for (int i = 0; i < users.size(); i++) {
 		if (users[i].GetBankAccout() == ConvertToInteger(userAccount)) {
 			m_list1->Clear();
@@ -302,10 +341,31 @@ void cMain::GetStatement(wxCommandEvent& evt) {
 			for (int i=(trans.size()-1);i>=0;i--)
 			{
 				auto vect = trans[i];
-				tempText = vect[0] + " || " + vect[3] + "      || " + vect[4];
-				m_list1->Append(tempText);
+				if (BetweenDates(vect[0], m_date1->GetValue(), m_date2->GetValue()))
+				{
+					tempText = vect[0] + " || " + vect[3] + "      || " + vect[4];
+					m_list1->Append(tempText);
+				}
 			}
 			return;
 		}
+	}
+	
+}
+
+void cMain::DateChangeDate1(wxDateEvent& event) 
+{
+	if (CompareTwoDates(m_date1->GetValue(), m_date2->GetValue()))
+	{
+		wxMessageBox(wxT("Date 1 cannot be higher than Date 2"));
+		m_date1->SetValue(m_date2->GetValue() - wxTimeSpan::Day());
+	}
+}
+void cMain::DateChangeDate2(wxDateEvent& event)
+{
+	if (CompareTwoDates(m_date1->GetValue(), m_date2->GetValue()))
+	{
+		wxMessageBox(wxT("Date 2 cannot be lower than Date 1"));
+		m_date2->SetValue(m_date1->GetValue() + wxTimeSpan::Day());
 	}
 }
