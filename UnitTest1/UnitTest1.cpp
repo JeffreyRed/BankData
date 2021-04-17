@@ -71,7 +71,8 @@ namespace UnitTest1
 			int total = 4000;
 			int deposit = 300;
 			vector<string> temp;
-			temp.push_back("2021/4/16");
+			string date = "2021/4/16";
+			temp.push_back(date);
 			temp.push_back(name);
 			temp.push_back(to_string(account));
 			temp.push_back(to_string(deposit));
@@ -79,7 +80,7 @@ namespace UnitTest1
 			vector<vector<string>> data;
 			data.push_back(temp);
 			Person jeff(name, data, account, total);
-			jeff.Deposit(deposit);
+			jeff.Deposit(deposit,date);
 			Assert::AreEqual(total+ deposit, jeff.GetBalance());
 		}
 
@@ -90,7 +91,8 @@ namespace UnitTest1
 			int total = 4000;
 			int deposit = 300;
 			vector<string> temp;
-			temp.push_back("2021/4/16");
+			string date = "2021/4/16";
+			temp.push_back(date);
 			temp.push_back(name);
 			temp.push_back(to_string(account));
 			temp.push_back(to_string(deposit));
@@ -98,7 +100,7 @@ namespace UnitTest1
 			vector<vector<string>> data;
 			data.push_back(temp);
 			Person jeff(name, data, account, total);
-			jeff.Withdraw(200);
+			jeff.Withdraw(200, date);
 			Assert::AreNotEqual(total-deposit, jeff.GetBalance());
 		}
 
